@@ -143,12 +143,13 @@ sudo docker run -d -p 29000:9000 -p 9443:9443 --name=portainer --restart=always 
 
 📄 [Docs](https://hub.docker.com/r/ollama/ollama)
 
-Note 0.10.1-rocm in 2025-08-01
+
+Note 0.11.3-rc0-rocm 2025-08-06
 
 ```bash
 sudo docker run -d --device /dev/kfd --device /dev/dri \
   -v ollama:/root/.ollama -p 11434:11434 \
-  --name ollama ollama/ollama:0.10.1-rocm
+  --name ollama ollama/ollama:0.11.3-rc0-rocm
 ```
 
 ---
