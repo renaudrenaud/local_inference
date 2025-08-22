@@ -158,11 +158,13 @@ sudo docker run -d --device /dev/kfd --device /dev/dri \
 
 Example `docker-compose.yml`:
 
+[version 0.6.23](https://github.com/open-webui/open-webui/releases/tag/v0.6.23)
+
 ```yaml
 services:
   open-webui:
     container_name: open-webui
-    image: ghcr.io/open-webui/open-webui:0.6.15
+    image: ghcr.io/open-webui/open-webui:0.6.23
     restart: on-failure:3
     environment:
       - OLLAMA_BASE_URL=http://host.docker.internal:11434
