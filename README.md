@@ -16,6 +16,15 @@ For AMD64-based systems, **GMKtec** was first to market. For under €2,000, you
 
 ---
 
+## Bumps
+
+2025-08-30
+- Ollama ollama:0.11.8-rocm
+- OWUI open-webui:0.6.26
+
+
+---
+
 ## ⚙️ Machine Choice
 
 As of June 2025, the top pick is GMKTEC’s [EVO-X2](https://www.gmktec.com/products/amd-ryzen%E2%84%A2-ai-max-395-evo-x2-ai-mini-pc):
@@ -146,7 +155,7 @@ sudo docker run -d -p 29000:9000 -p 9443:9443 --name=portainer --restart=always 
 ```bash
 sudo docker run -d --device /dev/kfd --device /dev/dri \
   -v ollama:/root/.ollama -p 11434:11434 \
-  --name ollama ollama/ollama:0.11.5-rocm
+  --name ollama ollama/ollama:0.11.8-rocm
 ```
 
 ---
@@ -158,13 +167,13 @@ sudo docker run -d --device /dev/kfd --device /dev/dri \
 
 Example `docker-compose.yml`:
 
-[version 0.6.23](https://github.com/open-webui/open-webui/releases/tag/v0.6.23)
+[version 0.6.26](https://github.com/open-webui/open-webui/releases/tag/v0.6.26)
 
 ```yaml
 services:
   open-webui:
     container_name: open-webui
-    image: ghcr.io/open-webui/open-webui:0.6.23
+    image: ghcr.io/open-webui/open-webui:0.6.26
     restart: on-failure:3
     environment:
       - OLLAMA_BASE_URL=http://host.docker.internal:11434
