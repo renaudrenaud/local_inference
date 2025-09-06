@@ -18,6 +18,9 @@ For AMD64-based systems, **GMKtec** was first to market. For under €2,000, you
 
 ## Bumps
 
+2025-09-06
+- Ollama ollama:0.11.10-rocm
+
 2025-08-30
 - Ollama ollama:0.11.8-rocm
 - OWUI open-webui:0.6.26
@@ -155,7 +158,7 @@ sudo docker run -d -p 29000:9000 -p 9443:9443 --name=portainer --restart=always 
 ```bash
 sudo docker run -d --device /dev/kfd --device /dev/dri \
   -v ollama:/root/.ollama -p 11434:11434 \
-  --name ollama ollama/ollama:0.11.8-rocm
+  --name ollama ollama/ollama:0.11.10-rocm
 ```
 
 ---
