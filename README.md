@@ -19,9 +19,10 @@ For AMD64-based systems, **GMKtec** was first to market. For under €2,000, you
 ## Bumps
 
 2025-09-24
-- ROCm v7 requires Ubuntu 24.04
+- New ROCm v7 (2025-09-17) requires Ubuntu 24.04
 - Ollama ollama:0.12.1-rocm
 - OWUI open-webui:0.6.30
+- Fix the *Error: 500 Internal Server Error: memory layout cannot be allocated*
 
 2025-09-22
 - Ollama ollama:0.12.0-rocm
@@ -94,7 +95,86 @@ GMKtec is **available now**.
 sudo apt update && sudo apt upgrade -y 
 ```
 
+Because Ubuntu is a bit restrictive with the eGPU memory, we need to edit the GRUB configuration:
 
+```bash
+/etc/default/grub
+```
+
+And then modify the line:
+```
+GRUB_CMDLINE_LINUX_DEFAULT="quiet splash iommu=pt amdgpu.vm_update_mode=3"
+```
+
+Please reboot!
+
+After the reboot, check the memory available for the GPU:
+```bash```
+ulimit -l
+4061308
+```
+
+Not enough for our needs (4TB), so let's set the parameters to unlimited.
+
+
+
+```sudo nano /etc/security/limits.conf``` 
+
+Then add at the end of the file:
+```
+* soft memlock unlimited
+* hard memlock unlimited
+```
+
+```sudo nano /etc/systemd/system.conf```
+
+Then modify the line:
+```
+DefaultLimitMEMLOCK=infinity
+```
+
+Same for:
+```
+sudo nano /etc/systemd/user.conf
+```
+
+Then modify the line:
+```
+DefaultLimitMEMLOCK=infinity
+```
+
+Exit your session and reconnect to apply the changes.
+
+
+Confirm :
+ulimit -l
+unlimited
+
+Then enjoy your system!
+
+```bash
+root@b08e21ddb080:/# ollama list
+NAME            ID              SIZE     MODIFIED          
+gpt-oss:120b    f7f8e2f8f4e0    65 GB    About an hour ago    
+gpt-oss:20b     aa4295ac10c3    13 GB    2 hours ago          
+root@b08e21ddb080:/# ollama run gpt-oss:120b
+>>> salut !!!
+Thinking...
+User says "salut !!!" which is French greeting. Likely wants a friendly response. Should respond in French. Ask how can help.
+...done thinking.
+
+Salut ! 👋  
+Comment ça va ? Qu’est‑ce qui t’amène aujourd’hui ?
+
+>>> tout va bien pour toi ?
+Thinking...
+The user asks in French: "tout va bien pour toi ?" meaning "Is everything fine for you?" Should respond politely, maybe ask about them, keep conversational. Use French.
+...done thinking.
+
+Merci, ça va très bien, merci de demander ! 😊 Et toi, comment se passe ta journée ?
+
+>>> Send a message (/? for help)
+```
 
 ---
 
@@ -193,7 +273,7 @@ sudo docker run -d --device /dev/kfd --device /dev/dri \
 
 Example `docker-compose.yml`:
 
-[version 0.6.30](https://github.com/open-webui/open-webui/releases/tag/v0.6.26)
+[version 0.6.30](https://github.com/open-webui/open-webui/releases/tag/v0.6.30)
 
 ```yaml
 services:
@@ -212,20 +292,6 @@ services:
     extra_hosts:
       - host.docker.internal:host-gateway
 ```
-So :
-
-```
-mkdir code
-cd code
-mkdir openwebui
-cd openwebui/
-nano docker-compose.yml
-docker compose up -d
-```
-
-
-
-
 
 #### 🔐 Authentication Notes
 
@@ -251,6 +317,6 @@ ollama pull mistral-small3.2:24b
 ```
 
 - In your browser:
-  - Go to the mapped port
+  - Go to the OpenWebUI mapped port
   - Create the admin account
   - Start using the system!
