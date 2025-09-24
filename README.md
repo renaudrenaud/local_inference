@@ -18,6 +18,9 @@ For AMD64-based systems, **GMKtec** was first to market. For under €2,000, you
 
 ## Bumps
 
+2025-09-24
+- ROCm v7 requires Ubuntu 24.04
+- Ollama ollama:0.12.1-rocm
 
 2025-09-22
 - Ollama ollama:0.12.0-rocm
@@ -55,8 +58,8 @@ GMKtec is **available now**.
 
 ## 🧩 Software Stack
 
-- OS of your choice (e.g., [PopOS](https://system76.com/pop/))  
-- GPU drivers: [ROCm](https://rocm.docs.amd.com/en/latest/)  
+- OS of your choice, went for [UBUNTU 22.04 LTS](https://ubuntu.com/download/server/thank-you?version=24.04.3&architecture=amd64&lts=true)
+- GPU drivers: [ROCm](https://rocm.docs.amd.com/projects/install-on-linux/en/latest/install/quick-start.html)  
 - [Docker for Ubuntu](https://docs.docker.com/engine/install/ubuntu/)  
 - [Portainer](https://docs.portainer.io/) for web-based Docker UI  
 - AI Tools:
@@ -77,36 +80,48 @@ GMKtec is **available now**.
 
 ### 🔧 BIOS Settings
 
-- Allocate max RAM to GPU = 96GB  
+- Allocate max RAM to GPU = 96GB  (Advanced, GFX Configuration, UMA Frame Buffer Size)
 - Enable "Performance" mode → 120W average, 140W peak CPU  
 
 ---
 
-### 🐧 PopOS Installation
+### 🐧 Ubuntu Installation
+- [UBUNTU 22.04 LTS](https://ubuntu.com/download/server/thank-you?version=24.04.3&architecture=amd64&lts=true)
+- During installation, select "Install OpenSSH server" for remote access
+- After installation, update the system:
+```bash
+sudo apt update && sudo apt upgrade -y 
+```
 
-Installed in June 2025 using PopOS, but any Linux distro works.
 
-PopOS is optimized for performance and ease of use, and while it supports NVIDIA GPUs very well, **we’re using AMD here**!
-
-📥 [Download PopOS](https://system76.com/pop/download)
 
 ---
 
 ### 📦 ROCm Drivers Installation
 
+From
+https://rocm.docs.amd.com/projects/install-on-linux/en/latest/install/quick-start.html
+
+
+Drivers for Ubuntu 24.04 (ROCm v7.x):
+
 ```bash
-wget https://repo.radeon.com/amdgpu-install/6.4.1/ubuntu/jammy/amdgpu-install_6.4.60401-1_all.deb
-sudo apt install ./amdgpu-install_6.4.60401-1_all.deb
+wget https://repo.radeon.com/amdgpu-install/7.0.1/ubuntu/noble/amdgpu-install_7.0.1.70001-1_all.deb
+sudo apt install ./amdgpu-install_7.0.1.70001-1_all.deb
 sudo apt update
 sudo apt install python3-setuptools python3-wheel
-sudo usermod -a -G render,video $LOGNAME
+sudo usermod -a -G render,video $LOGNAME # Add the current user to the render and video groups
 sudo apt install rocm
-wget https://repo.radeon.com/amdgpu-install/6.4.1/ubuntu/jammy/amdgpu-install_6.4.60401-1_all.deb
-sudo apt install ./amdgpu-install_6.4.60401-1_all.deb
+```
+
+AMD Drivers:
+
+```bash
+wget https://repo.radeon.com/amdgpu-install/7.0.1/ubuntu/noble/amdgpu-install_7.0.1.70001-1_all.deb
+sudo apt install ./amdgpu-install_7.0.1.70001-1_all.deb
 sudo apt update
 sudo apt install "linux-headers-$(uname -r)" "linux-modules-extra-$(uname -r)"
 sudo apt install amdgpu-dkms
-sudo reboot
 ```
 
 ---
@@ -152,6 +167,9 @@ sudo docker run -d -p 29000:9000 -p 9443:9443 --name=portainer --restart=always 
   -v /portainer/Files/AppData/Config/portainer:/data \
   portainer/portainer-ce:latest
 ```
+Please go to `http://<your-server-ip>:29000` to set up your admin account and start using Portainer.
+
+
 
 ---
 
@@ -162,7 +180,7 @@ sudo docker run -d -p 29000:9000 -p 9443:9443 --name=portainer --restart=always 
 ```bash
 sudo docker run -d --device /dev/kfd --device /dev/dri \
   -v ollama:/root/.ollama -p 11434:11434 \
-  --name ollama ollama/ollama:0.12.0-rocm
+  --name ollama ollama/ollama:0.12.1-rocm
 ```
 
 ---
