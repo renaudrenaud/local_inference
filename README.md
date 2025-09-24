@@ -21,6 +21,7 @@ For AMD64-based systems, **GMKtec** was first to market. For under €2,000, you
 2025-09-24
 - ROCm v7 requires Ubuntu 24.04
 - Ollama ollama:0.12.1-rocm
+- OWUI open-webui:0.6.30
 
 2025-09-22
 - Ollama ollama:0.12.0-rocm
@@ -192,13 +193,13 @@ sudo docker run -d --device /dev/kfd --device /dev/dri \
 
 Example `docker-compose.yml`:
 
-[version 0.6.26](https://github.com/open-webui/open-webui/releases/tag/v0.6.26)
+[version 0.6.30](https://github.com/open-webui/open-webui/releases/tag/v0.6.26)
 
 ```yaml
 services:
   open-webui:
     container_name: open-webui
-    image: ghcr.io/open-webui/open-webui:0.6.26
+    image: ghcr.io/open-webui/open-webui:0.6.30
     restart: on-failure:3
     environment:
       - OLLAMA_BASE_URL=http://host.docker.internal:11434
@@ -211,6 +212,20 @@ services:
     extra_hosts:
       - host.docker.internal:host-gateway
 ```
+So :
+
+```
+mkdir code
+cd code
+mkdir openwebui
+cd openwebui/
+nano docker-compose.yml
+docker compose up -d
+```
+
+
+
+
 
 #### 🔐 Authentication Notes
 
