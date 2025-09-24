@@ -109,7 +109,7 @@ GRUB_CMDLINE_LINUX_DEFAULT="quiet splash iommu=pt amdgpu.vm_update_mode=3"
 Please reboot!
 
 After the reboot, check the memory available for the GPU:
-```bash```
+```bash
 ulimit -l
 4061308
 ```
