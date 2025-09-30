@@ -18,6 +18,10 @@ For AMD64-based systems, **GMKtec** was first to market. For under €2,000, you
 
 ## Bumps
 
+2025-09-30
+- bump OWUI open-webui:0.6.32 https://github.com/open-webui/open-webui/releases/tag/v0.6.32
+
+
 2025-09-27
 - Ollama ollama:0.12.3-rocm https://github.com/ollama/ollama/releases/tag/v0.12.3
 - OWUI open-webui:0.6.31 https://github.com/open-webui/open-webui/releases/tag/v0.6.31
@@ -277,13 +281,13 @@ sudo docker run -d --device /dev/kfd --device /dev/dri \
 
 Example `docker-compose.yml`:
 
-[version 0.6.31](https://github.com/open-webui/open-webui/releases/tag/v0.6.31)
+open-webui:0.6.31 https://github.com/open-webui/open-webui/releases/tag/v0.6.31
 
 ```yaml
 services:
   open-webui:
     container_name: open-webui
-    image: ghcr.io/open-webui/open-webui:0.6.31
+    image: ghcr.io/open-webui/open-webui:0.6.32
     restart: on-failure:3
     environment:
       - OLLAMA_BASE_URL=http://host.docker.internal:11434
